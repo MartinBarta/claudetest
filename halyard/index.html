@@ -17,7 +17,8 @@
   --accent: #2d5fd8;
   --accent-ink: #ffffff;
   --accent-soft: rgba(45, 95, 216, 0.10);
-  --overlay-2: #6250d6;
+  --overlay-2: #eb6834;
+  --on-solid: #ffffff;
   --up: #0c8559;
   --down: #cf3437;
   --up-soft: rgba(12, 133, 89, 0.12);
@@ -33,7 +34,7 @@
   :root:not([data-theme="light"]) {
     --bg: #0d1016; --panel: #151922; --panel-2: #1a1f2a; --line: #252b38; --line-2: #333b4b;
     --fg: #e6e9f1; --fg-2: #a8afbf; --fg-3: #737b8e;
-    --accent: #5b8cff; --accent-ink: #0d1016; --accent-soft: rgba(91, 140, 255, 0.14); --overlay-2: #9085e9;
+    --accent: #5b8cff; --accent-ink: #0d1016; --accent-soft: rgba(91, 140, 255, 0.14); --overlay-2: #d95926; --on-solid: #0d1016;
     --up: #2fb380; --down: #f0605f; --up-soft: rgba(47, 179, 128, 0.14); --down-soft: rgba(240, 96, 95, 0.14);
     --warn: #e2a63c; --warn-soft: rgba(226, 166, 60, 0.14); --shadow: none;
     color-scheme: dark;
@@ -42,20 +43,18 @@
 :root[data-theme="dark"] {
   --bg: #0d1016; --panel: #151922; --panel-2: #1a1f2a; --line: #252b38; --line-2: #333b4b;
   --fg: #e6e9f1; --fg-2: #a8afbf; --fg-3: #737b8e;
-  --accent: #5b8cff; --accent-ink: #0d1016; --accent-soft: rgba(91, 140, 255, 0.14); --overlay-2: #9085e9;
+  --accent: #5b8cff; --accent-ink: #0d1016; --accent-soft: rgba(91, 140, 255, 0.14); --overlay-2: #d95926; --on-solid: #0d1016;
   --up: #2fb380; --down: #f0605f; --up-soft: rgba(47, 179, 128, 0.14); --down-soft: rgba(240, 96, 95, 0.14);
   --warn: #e2a63c; --warn-soft: rgba(226, 166, 60, 0.14); --shadow: none;
   color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 body {
   background: var(--bg); color: var(--fg); font-family: var(--font-ui); font-size: 13px; line-height: 1.4;
-  padding-left: max(12px, env(safe-area-inset-left, 0px)); padding-right: max(12px, env(safe-area-inset-right, 0px));
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
   padding-block: 0 16px;
-}
-@media (max-width: 640px) {
-  body { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 }
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
 button { font: inherit; color: inherit; cursor: pointer; }
@@ -172,7 +171,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex]:focu
 .book .row { cursor: pointer; border: 0; background: none; width: 100%; text-align: left; }
 .book .row:hover { background: var(--panel-2); }
 .book .row > span { position: relative; z-index: 1; }
-.book .row > span:nth-child(2), .book .hdr > span:nth-child(2), .book .row > span:nth-child(3), .book .hdr > span:nth-child(3) { text-align: right; }
+.book .row > span:nth-of-type(n+2), .book .hdr > span:nth-of-type(n+2) { text-align: right; }
 .book .bar { position: absolute; right: 0; top: 2px; bottom: 2px; z-index: 0; border-radius: 2px 0 0 2px; }
 .book .ask .bar { background: var(--down-soft); } .book .bid .bar { background: var(--up-soft); }
 .book .ask .p { color: var(--down); } .book .bid .p { color: var(--up); }
@@ -190,8 +189,8 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex]:focu
 .tk { padding: 10px; display: flex; flex-direction: column; gap: 10px; }
 .side-seg { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
 .side-seg button { border: 1px solid var(--line-2); background: var(--panel); border-radius: var(--r); padding: 8px; font-weight: 600; font-size: 13px; }
-.side-seg button.buy[aria-pressed="true"] { background: var(--up); border-color: var(--up); color: #fff; }
-.side-seg button.sell[aria-pressed="true"] { background: var(--down); border-color: var(--down); color: #fff; }
+.side-seg button.buy[aria-pressed="true"] { background: var(--up); border-color: var(--up); color: var(--on-solid); }
+.side-seg button.sell[aria-pressed="true"] { background: var(--down); border-color: var(--down); color: var(--on-solid); }
 .tk-quote { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
 .tk-quote button { border: 1px solid var(--line); border-radius: var(--r); background: var(--panel-2); padding: 5px 8px; text-align: left; }
 .tk-quote span { display: block; font-size: 10.5px; color: var(--fg-3); text-transform: uppercase; letter-spacing: 0.06em; }
@@ -214,7 +213,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex]:focu
 .err:empty { display: none; }
 .note { margin: 0; font-size: 11.5px; color: var(--warn); }
 .note:empty { display: none; }
-.cta { border: 0; border-radius: var(--r); padding: 10px; font-weight: 600; font-size: 13.5px; color: #fff; background: var(--up); }
+.cta { border: 0; border-radius: var(--r); padding: 10px; font-weight: 600; font-size: 13.5px; color: var(--on-solid); background: var(--up); }
 .cta.sell { background: var(--down); }
 .cta:disabled { opacity: 0.45; cursor: not-allowed; }
 .confirm { padding: 10px; display: flex; flex-direction: column; gap: 10px; }
@@ -300,10 +299,14 @@ tr:last-child td { border-bottom: 0; }
         <label><input type="checkbox" id="ovVwap" checked> <span class="sw" style="background:var(--overlay-2)"></span>VWAP</label>
       </div>
       <div class="ohlc" id="ohlc"></div>
-      <button class="btn" id="liveBtn" style="margin-left:auto" title="Jump back to the latest candle">Latest</button>
+      <div class="seg" style="margin-left:auto" role="group" aria-label="Zoom">
+        <button type="button" id="zoomOut" aria-label="Zoom out" title="Zoom out (or Ctrl + scroll)">−</button>
+        <button type="button" id="zoomIn" aria-label="Zoom in" title="Zoom in (or Ctrl + scroll)">+</button>
+      </div>
+      <button class="btn" id="liveBtn" title="Jump back to the latest candle. Drag the chart to pan.">Latest</button>
     </div>
     <div class="chart-wrap" id="chartWrap">
-      <canvas id="chartCv" role="img" aria-label="Candlestick chart" title="Scroll to zoom, drag to pan, double-click to reset"></canvas>
+      <canvas id="chartCv" role="img" aria-label="Candlestick chart"></canvas>
     </div>
   </section>
 
@@ -629,9 +632,25 @@ function sel() { return sim.by[UI.sel]; }
 let C = {};
 function readColors() {
   const cs = getComputedStyle(document.documentElement);
-  for (const k of ['panel', 'panel-2', 'line', 'line-2', 'fg', 'fg-2', 'fg-3', 'accent', 'overlay-2', 'up', 'down', 'warn', 'accent-soft'])
+  for (const k of ['panel', 'panel-2', 'line', 'line-2', 'fg', 'fg-2', 'fg-3', 'accent', 'overlay-2', 'up', 'down', 'warn', 'accent-soft', 'on-solid'])
     C[k] = cs.getPropertyValue('--' + k).trim();
   UI.dirty = true;
+}
+
+// Replace a live list's markup without eating clicks or focus: skip identical markup,
+// hold updates while a pointer is pressed inside, and restore focus by data key.
+const pressed = new Set();
+function setHTML(el, html) {
+  if (el._html === html) return;
+  if (pressed.has(el)) { el._pending = html; return; }
+  const a = document.activeElement, key = a && el.contains(a) ? (a.dataset.key || null) : null;
+  el.innerHTML = html; el._html = html; el._pending = null;
+  if (key) { const n = el.querySelector(`[data-key="${CSS.escape(key)}"]`); if (n) n.focus({ preventScroll: true }); }
+}
+function guard(el) {
+  el.addEventListener('pointerdown', () => pressed.add(el));
+  const release = () => { if (!pressed.delete(el)) return; setTimeout(() => { if (el._pending) setHTML(el, el._pending); }, 0); };
+  window.addEventListener('pointerup', release, true); window.addEventListener('pointercancel', release, true);
 }
 
 // ---------- header + KPIs ----------
@@ -677,12 +696,12 @@ function renderWatch() {
     const fl = (!reduceMotion.matches && prev !== undefined && prev !== s.last) ? (s.last > prev ? 'flash-up' : 'flash-down') : '';
     UI.prevLast[s.sym] = s.last;
     const tag = p.qty ? `<span class="pos-dot ${p.qty > 0 ? 'L' : 'S'}" title="${p.qty > 0 ? 'Long' : 'Short'} ${fmtInt(Math.abs(p.qty))}">${p.qty > 0 ? 'L' : 'S'}</span>` : '';
-    h += `<li><button data-sym="${s.sym}" aria-current="${s.sym === UI.sel}">
+    h += `<li><button data-sym="${s.sym}" data-key="w-${s.sym}" aria-current="${s.sym === UI.sel}">
       <span style="min-width:0"><div class="s1">${s.sym}${tag}</div><div class="s2">${esc(s.name)}</div></span>
       ${spark(s)}
       <span><div class="px ${fl}">${fmt(s.last)}</div><div class="pc ${cls(ch)}">${sgnPct(ch)}</div></span></button></li>`;
   }
-  $('wl').innerHTML = h;
+  setHTML($('wl'), h);
 }
 
 // ---------- book + tape ----------
@@ -695,12 +714,12 @@ function renderBook() {
   const max = Math.max(ca[N - 1], cb[N - 1]);
   let h = `<div class="hdr"><span>Price</span><span>Size</span><span>Total</span></div>`;
   for (let i = N - 1; i >= 0; i--)
-    h += `<button type="button" class="row ask${mine.has(a[i].toFixed(2)) ? ' mine' : ''}" data-px="${a[i]}" data-side="buy" aria-label="Ask ${fmt(a[i])}, ${fmtInt(s.as[i])} shares"><div class="bar" style="width:${(ca[i] / max * 100).toFixed(1)}%"></div><span class="p">${fmt(a[i])}</span><span>${fmtInt(s.as[i])}</span><span>${fmtInt(ca[i])}</span></button>`;
+    h += `<button type="button" class="row ask${mine.has(a[i].toFixed(2)) ? ' mine' : ''}" data-key="a${i}" data-px="${a[i]}" data-side="buy" aria-label="Ask ${fmt(a[i])}, ${fmtInt(s.as[i])} shares"><div class="bar" style="width:${(ca[i] / max * 100).toFixed(1)}%"></div><span class="p">${fmt(a[i])}</span><span>${fmtInt(s.as[i])}</span><span>${fmtInt(ca[i])}</span></button>`;
   const spr = s.ask - s.bid, mid = (s.ask + s.bid) / 2;
   h += `<div class="spread"><span><b class="${s.last >= s.open ? 'up' : 'down'}">${fmt(s.last)}</b> last</span><span class="muted">spread ${fmt(spr)} · ${(spr / mid * 1e4).toFixed(1)} bp</span></div>`;
   for (let i = 0; i < N; i++)
-    h += `<button type="button" class="row bid${mine.has(b[i].toFixed(2)) ? ' mine' : ''}" data-px="${b[i]}" data-side="sell" aria-label="Bid ${fmt(b[i])}, ${fmtInt(s.bs[i])} shares"><div class="bar" style="width:${(cb[i] / max * 100).toFixed(1)}%"></div><span class="p">${fmt(b[i])}</span><span>${fmtInt(s.bs[i])}</span><span>${fmtInt(cb[i])}</span></button>`;
-  $('book').innerHTML = h;
+    h += `<button type="button" class="row bid${mine.has(b[i].toFixed(2)) ? ' mine' : ''}" data-key="b${i}" data-px="${b[i]}" data-side="sell" aria-label="Bid ${fmt(b[i])}, ${fmtInt(s.bs[i])} shares"><div class="bar" style="width:${(cb[i] / max * 100).toFixed(1)}%"></div><span class="p">${fmt(b[i])}</span><span>${fmtInt(s.bs[i])}</span><span>${fmtInt(cb[i])}</span></button>`;
+  setHTML($('book'), h);
   const bidT = cb[N - 1], askT = ca[N - 1], imb = (bidT - askT) / (bidT + askT);
   $('bookAside').innerHTML = `imbalance <span class="${cls(imb)}">${imb > 0 ? 'bid' : 'ask'} ${Math.abs(imb * 100).toFixed(0)}%</span>`;
 }
@@ -731,7 +750,7 @@ function renderBlotter() {
         h += `<tr data-sym="${s.sym}"><td class="sym">${s.sym}</td><td>${p.qty > 0 ? '<span class="pill b">LONG</span>' : p.qty < 0 ? '<span class="pill s">SHORT</span>' : '<span class="muted">flat</span>'}</td>
           <td>${fmtInt(p.qty)}</td><td>${p.qty ? fmt(p.avg, 3) : '–'}</td><td>${fmt(s.last)}</td><td>${fmt(p.qty * s.last)}</td>
           <td class="${cls(u)}">${p.qty ? sgn(u) : '–'}</td><td class="${cls(up)}">${p.qty ? sgnPct(up) : '–'}</td><td class="${cls(p.realized)}">${sgn(p.realized)}</td>
-          <td>${p.qty ? `<button class="mini" data-close="${s.sym}">Close</button>` : ''}</td></tr>`;
+          <td>${p.qty ? `<button class="mini" data-key="c-${s.sym}" data-close="${s.sym}">Close</button>` : ''}</td></tr>`;
       }
       h += '</tbody></table>';
     }
@@ -743,7 +762,7 @@ function renderBlotter() {
         const s = sim.by[o.sym], px = o.type === 'limit' ? o.limit : o.stop, dist = (px / s.last - 1);
         h += `<tr data-sym="${o.sym}"><td>${hms(o.t)}</td><td class="sym">${o.sym}</td><td><span class="pill ${o.side === 'buy' ? 'b' : 's'}">${o.side.toUpperCase()}</span></td>
           <td><span class="pill w">${o.type === 'limit' ? 'LMT' : 'STP'}</span></td><td>${fmtInt(o.qty)}</td><td>${fmt(px)}</td><td>${fmt(s.last)}</td><td>${sgnPct(dist)}</td>
-          <td><button class="mini" data-cancel="${o.id}">Cancel</button></td></tr>`;
+          <td><button class="mini" data-key="x-${o.id}" data-cancel="${o.id}">Cancel</button></td></tr>`;
       }
       h += '</tbody></table>';
     }
@@ -757,7 +776,7 @@ function renderBlotter() {
       h += '</tbody></table>';
     }
   }
-  $('blotBody').innerHTML = h;
+  setHTML($('blotBody'), h);
 }
 
 // ---------- order ticket ----------
@@ -1019,13 +1038,13 @@ function drawChart() {
   const ly = Math.round(Math.max(top, Math.min(top + priceH, yOf(s.last)))) + 0.5, lc = s.last >= s.open ? C.up : C.down;
   ctx.setLineDash([1, 2]); ctx.strokeStyle = lc; ctx.beginPath(); ctx.moveTo(0, ly); ctx.lineTo(plotW, ly); ctx.stroke(); ctx.setLineDash([]);
   if (UI.pan === 0 && vis.length) { ctx.fillStyle = lc; ctx.beginPath(); ctx.arc(xOf(vis.length - 1), yOf(s.last), 3, 0, Math.PI * 2); ctx.fill(); }
-  tag(ctx, plotW + 2, ly, fmt(s.last), lc, '#ffffff', 'left');
+  tag(ctx, plotW + 2, ly, fmt(s.last), lc, C['on-solid'], 'left');
 
   // crosshair
   let hb = vis[vis.length - 1], hi_ = start + vis.length - 1;
   const h = UI.hover;
   if (h && h.x < plotW && h.y > 0 && h.y < volBot) {
-    const idx = Math.max(0, Math.min(vis.length - 1, Math.round((h.x - (plotW - (vis.length - 0.5 + rightPad) * bw)) / bw - 0.5)));
+    const idx = Math.max(0, Math.min(vis.length - 1, Math.round((h.x - (plotW - (vis.length - 0.5 + rightPad) * bw)) / bw)));
     hb = vis[idx]; hi_ = start + idx;
     const x = Math.round(xOf(idx)) + 0.5;
     ctx.strokeStyle = C['fg-3']; ctx.setLineDash([3, 3]);
@@ -1123,6 +1142,7 @@ function selectSym(sym) {
 
 // ---------- wiring ----------
 function wire() {
+  for (const id of ['wl', 'book', 'blotBody']) guard($(id));
   $('wl').addEventListener('click', e => { const b = e.target.closest('button[data-sym]'); if (b) selectSym(b.dataset.sym); });
   $('tfSeg').addEventListener('click', e => { const b = e.target.closest('button[data-tf]'); if (!b) return; UI.tf = +b.dataset.tf; UI.pan = 0; for (const x of $('tfSeg').children) x.setAttribute('aria-pressed', x === b); UI.dirty = true; });
   $('speedSeg').addEventListener('click', e => { const b = e.target.closest('button[data-speed]'); if (!b) return; UI.speed = +b.dataset.speed; for (const x of $('speedSeg').children) x.setAttribute('aria-pressed', x === b); setRunning(true); });
@@ -1144,7 +1164,9 @@ function wire() {
   const endDrag = () => { drag = null; chartCv.classList.remove('dragging'); };
   chartCv.addEventListener('pointerup', endDrag); chartCv.addEventListener('pointercancel', endDrag);
   chartCv.addEventListener('pointerleave', () => { if (!drag) { UI.hover = null; UI.dirty = true; } });
-  chartCv.addEventListener('wheel', e => { e.preventDefault(); UI.zoom = Math.max(24, Math.min(400, UI.zoom * (e.deltaY > 0 ? 1.12 : 1 / 1.12))); UI.dirty = true; }, { passive: false });
+  const zoomBy = f => { UI.zoom = Math.max(24, Math.min(400, UI.zoom * f)); UI.dirty = true; };
+  chartCv.addEventListener('wheel', e => { if (!e.ctrlKey && !e.metaKey) return; e.preventDefault(); zoomBy(e.deltaY > 0 ? 1.15 : 1 / 1.15); }, { passive: false });
+  $('zoomIn').addEventListener('click', () => zoomBy(1 / 1.3)); $('zoomOut').addEventListener('click', () => zoomBy(1.3));
   chartCv.addEventListener('dblclick', () => { UI.pan = 0; UI.zoom = 96; UI.dirty = true; });
   eqCv.addEventListener('pointermove', e => { UI.eqHover = e.clientX - eqCv.getBoundingClientRect().left; UI.dirty = true; });
   eqCv.addEventListener('pointerleave', () => { UI.eqHover = null; UI.dirty = true; });
